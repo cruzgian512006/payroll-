@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Payroll Form</title>
+  <style>
+    body {
+      background-image: url('IMG_4577.JPG'); /* change if needed */
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      height: 100vh;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: "Segoe UI", Arial, sans-serif;
+    }
+
+    .form-container {
+      background: rgba(0, 0, 0, 0.85);
+      padding: 35px 40px;
+      border-radius: 20px;
+      border: 2px solid gold;
+      width: 400px;
+      color: gold;
+      box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+      backdrop-filter: blur(4px);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 25px;
+      color: gold;
+      letter-spacing: 1px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 600;
+      font-size: 0.95em;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 1em;
+      box-sizing: border-box;
+      background: #fff;
+      color: #000;
+    }
+
+    input:focus {
+      outline: none;
+      border: 1px solid gold;
+      box-shadow: 0 0 5px gold;
+    }
+
+    button {
+      width: 100%;
+      background: gold;
+      color: black;
+      font-weight: bold;
+      border: none;
+      border-radius: 8px;
+      padding: 12px;
+      cursor: pointer;
+      font-size: 1em;
+      transition: all 0.3s ease;
+    }
+
+    button:hover {
+      background: #ffdd55;
+      transform: scale(1.03);
+    }
+
+    .footer {
+      text-align: center;
+      font-size: 0.8em;
+      margin-top: 10px;
+      opacity: 0.8;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="form-container">
+    <h2>PAYROLL FORM</h2>
+
+    <label for="idNumber">ID NUMBER</label>
+    <input type="text" id="idNumber" placeholder="Enter ID">
+
+    <label for="lastName">LAST NAME</label>
+    <input type="text" id="lastName" placeholder="Enter Last Name">
+
+    <label for="firstName">FIRST NAME</label>
+    <input type="text" id="firstName" placeholder="Enter First Name">
+
+    <label for="middleName">MIDDLE NAME</label>
+    <input type="text" id="middleName" placeholder="Enter Middle Name">
+
+    <label for="position">POSITION</label>
+    <input type="text" id="position" placeholder="Enter Position">
+
+    <label for="rate">RATE (per day)</label>
+    <input type="number" id="rate" placeholder="Enter Rate" min="0" step="0.01">
+
+    <label for="days">WORK DAYS</label>
+    <input type="number" id="days" placeholder="Enter Work Days" min="0" step="1">
+
+    <button id="submitBtn" type="button">SUBMIT</button>
+  </div>
+
+  <script>
+    document.getElementById('submitBtn').addEventListener('click', function() {
+      const id    = document.getElementById('idNumber').value.trim();
+      const last  = document.getElementById('lastName').value.trim();
+      const first = document.getElementById('firstName').value.trim();
+      const middle= document.getElementById('middleName').value.trim();
+      const pos   = document.getElementById('position').value.trim();
+      const rate  = parseFloat(document.getElementById('rate').value);
+      const days  = parseFloat(document.getElementById('days').value);
+
+      if (!id || !last || !first || !pos || isNaN(rate) || isNaN(days)) {
+        alert('⚠️ Please fill in all required fields correctly.');
+        return;
+      }
+
+      const data = { id, last, first, middle, pos, rate, days };
+      localStorage.setItem('payrollData', JSON.stringify(data));
+
+      // Redirect to payslip display
+      window.location.href = 'display.html';
+    });
+  </script>
+
+</body>
+</html>

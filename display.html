@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Payroll Program</title>
+  <style>
+    body {
+      background-color: #555; /* gray background like your image */
+      font-family: Arial, sans-serif;
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .payroll-box {
+      background: white;
+      width: 420px;
+      padding: 25px 35px;
+      border: 3px solid black;
+      border-radius: 20px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    }
+
+    h2 {
+      text-align: center;
+      margin-top: 0;
+      margin-bottom: 20px;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+
+    .line {
+      display: flex;
+      justify-content: space-between;
+      margin: 4px 0;
+    }
+
+    .deductions {
+      margin-top: 15px;
+    }
+
+    .deductions center {
+      margin-bottom: 5px;
+      font-weight: bold;
+      text-decoration: underline;
+    }
+
+    .total {
+      font-weight: bold;
+      margin-top: 8px;
+    }
+
+    .netpay {
+      font-weight: bold;
+      margin-top: 15px;
+      border-top: 2px solid #000;
+      padding-top: 10px;
+    }
+
+    .back-btn {
+      width: 100%;
+      margin-top: 20px;
+      padding: 8px;
+      font-weight: bold;
+      background: #f0f0f0;
+      border: 1px solid #000;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="payroll-box">
+    <h2>PAYROLL PROGRAM</h2>
+    <div id="payroll-info"></div>
+    <button class="back-btn" id="backBtn">BACK</button>
+  </div>
+
+  <script>
+    const data = JSON.parse(localStorage.getItem('payrollData'));
+
+    if (!data) {
+      document.getElementById('payroll-info').innerHTML = "<p>No data found. Please go back and submit the form.</p>";
+    } else {
+      const rate = Number(data.rate);
+      const days = Number(data.days);
+      const grossPay = rate * days;
+
+      // Deductions
+      const sss = grossPay * 0.05;
+      const pagibig = grossPay * 0.03;
+      const philhealth = grossPay * 0.02;
+      const tax = grossPay * 0.05;
+      const totalDeduction = sss + pagibig + philhealth + tax;
+      const netPay = grossPay - totalDeduction;
+
+      document.getElementById('payroll-info').innerHTML = `
+        <div class="line"><span><strong>ID:</strong></span><span>${data.id}</span></div>
+        <div class="line"><span><strong>NAME:</strong></span><span>${data.last}, ${data.first} ${data.middle}</span></div>
+        <div class="line"><span><strong>POSITION:</strong></span><span>${data.pos}</span></div>
+
+        <br>
+
+        <div class="line"><span><strong>RATE:</strong></span><span>${rate.toFixed(2)}</span></div>
+        <div class="line"><span><strong>DAYS:</strong></span><span>${days}</span></div>
+        <div class="line"><span><strong>GROSS PAY:</strong></span><span>${grossPay.toFixed(2)}</span></div>
+
+        <div class="deductions">
+          <center>DEDUCTIONS</center>
+          <div class="line"><span>SSS (5%):</span><span>${sss.toFixed(2)}</span></div>
+          <div class="line"><span>PAG-IBIG (3%):</span><span>${pagibig.toFixed(2)}</span></div>
+          <div class="line"><span>PHILHEALTH (2%):</span><span>${philhealth.toFixed(2)}</span></div>
+          <div class="line"><span>TAX (5%):</span><span>${tax.toFixed(2)}</span></div>
+          <div class="line total"><span>TOTAL DEDUCTION:</span><span>${totalDeduction.toFixed(2)}</span></div>
+        </div>
+
+        <div class="netpay line">
+          <span>NET PAY:</span>
+          <span>${netPay.toFixed(2)}</span>
+        </div>
+      `;
+    }
+
+    document.getElementById('backBtn').addEventListener('click', function() {
+      window.location.href = 'new.html';
+    });
+  </script>
+
+</body>
+</html>
